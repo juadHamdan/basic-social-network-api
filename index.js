@@ -19,16 +19,43 @@ app.use(express.urlencoded( // to support URL-encoded bodies
   extended: true
 }));
 
+// Version 
+function get_version( req, res) 
+{
+	const version_obj = { version: package.version, description: package.description };
+	res.send(JSON.stringify(version_obj));   
+}
+
 
 // Routing
 const router = express.Router();
 
-router.get('/version', (req, res) => {UsersHandling.get_version(req, res)})
-router.get('/users', (req, res) => {UsersHandling.list_users(req, res)})
-router.post('/users', (req, res) => {UsersHandling.create_user(req, res)})
+router.get('/version', (req, res) => {get_version(req, res)})
+
+//router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) 
+//router.post('/users', (req, res) => {UsersHandling.create_user(req, res)})
 router.put('/user/(:id)', (req, res) => {UsersHandling.update_user(req, res)})
 router.get('/user/(:id)', (req, res) => {UsersHandling.get_user(req, res)})
-router.delete('/user/(:id)', (req, res) => {UsersHandling.delete_user(req, res)})
+//router.delete('/user/(:id)', (req, res) => {UsersHandling.delete_user(req, res)}) 
+
+//TODO users:
+router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE
+router.post('/approve_user/(:id)', (req, res) => {UsersHandling.approve_user(req, res)}) // created => active
+router.post('/suspend_user/(:id)', (req, res) => {UsersHandling.suspend_user(req, res)}) //when suspended - user cannot login
+router.delete('/user/(:id)', (req, res) => {UsersHandling.delete_user(req, res)}) //DONE
+router.post('/restore_user/(:id)', (req, res) => {UsersHandling.restore_suspended_user(req, res)}) //suspended => active
+router.post('/message_users', (req, res) => {UsersHandling.message_all_users(req, res)})
+router.post('/message_user/(:id)', (req, res) => {UsersHandling.message_user(req, res)})
+router.post('/create_user', (req, res) => {UsersHandling.create_user(req, res)})
+
+
+//TODO posts
+router.post('/post/(:id)', (req, res) => {PostsHandling.publish_post_by_user(req, res)})
+router.delete('/post/(:id)', (req, res) => {PostsHandling.delete_post_of_user(req, res)})
+
+
+//TODO messages:
+router.post('/message/(:id)/(:id)', (req, res) => {MessagesHandling.send_message(req, res)}) // from user to user
 
 app.use('/api',router)
 
@@ -39,7 +66,7 @@ let msg = `${package.description} listening at port ${port}`
 app.listen(port, () => { console.log( msg ) ; })
 
 
-
+//A question to Ilan: messages or posts should be saved in the users or save them by themselves?
 
 
 /*

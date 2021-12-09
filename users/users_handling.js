@@ -15,13 +15,6 @@ fs.writeFile('users.json', JSON.stringify(g_users), (err) => {
 
 //Functions:
 
-// Version 
-function get_version( req, res) 
-{
-	const version_obj = { version: package.version, description: package.description };
-	res.send(  JSON.stringify( version_obj) );   
-}
-
 function list_users( req, res) 
 {
 	res.send(  JSON.stringify( g_users) );   
