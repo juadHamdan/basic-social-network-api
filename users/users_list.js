@@ -57,6 +57,16 @@ class UsersList {
 	    update_json_file(this.users_array,json_users)
         return user;
     }
+
+    login_authentication(id,password)
+    {
+        const user = this.users_array[this.get_index(id)]
+        let res = false
+        if(user)
+            res = compare_pass(password, user.password)
+
+        return res
+    }
 }
 
 

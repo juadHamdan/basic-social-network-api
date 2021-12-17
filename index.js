@@ -21,13 +21,12 @@ restore user : PUT http://127.0.0.1:2718/restore_user/2
 */
 
 
-
-
 const express = require('express')
 const package = require('./package.json');
 const UsersHandling = require('./users/users_handling');
 const PostsHandling = require('./posts/posts_handling');
 const MessagesHandling = require('./messages/messages_handling');
+const LoginHandling = require('./login_handling')
 
 const app = express()
 let  port = 2718;
@@ -59,8 +58,8 @@ const router = express.Router();
 router.get('/version', (req, res) => {get_version(req, res)})
 
 //TODO users:
-router.get('/login', (req, res) => {UsersHandling.login(req, res)}) //when logged in => send posts, send messages
-router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE => reset when exit
+router.post('/login', (req, res) => {LoginHandling.login(req, res)}) //when logged in => send posts, send messages
+router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE
 router.put('/approve_user/(:id)', (req, res) => {UsersHandling.approve_user(req, res)}) //DONE
 router.put('/suspend_user/(:id)', (req, res) => {UsersHandling.suspend_user(req, res)}) //DONE, when suspended - user cannot login
 router.delete('/user/(:id)', (req, res) => {UsersHandling.delete_user(req, res)}) //DONE

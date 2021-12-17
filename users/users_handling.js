@@ -1,8 +1,5 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
 const global_scope = require('../global_consts')
-const {update_json_file} = require('../data/json_file_handling')
-const User = require('./user')
-const UsersList = require('./users_list')
 const Status = require('./status')
 
 
@@ -82,10 +79,6 @@ function update_user_status(req, res, new_status)
 {
 	const id = parseInt(req.params.id);
 
-	// const user_idx = get_user_idx(id, res)
-	// if(!user_idx)
-	// 	return
-
 	if(check_id(id,res))
 	{
 		user = global_scope.users_list.update_status(id, new_status)
@@ -114,4 +107,4 @@ function valid_mail(email)
     return re.test(email);
 }
 
-module.exports = {list_users, create_user, delete_user, approve_user, suspend_user, restore_suspended_user}
+module.exports = {check_id, list_users, create_user, delete_user, approve_user, suspend_user, restore_suspended_user}
