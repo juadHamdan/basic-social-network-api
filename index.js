@@ -62,9 +62,9 @@ router.get('/version', (req, res) => {get_version(req, res)})
 router.post('/login', (req, res) => {LoginHandling.login(req, res)}) //when logged in => send posts, send messages
 router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE
 router.put('/approve_user/(:id)', (req, res) => {LoginHandling.token_checker(req, res, UsersHandling.approve_user)}) //DONE
-router.put('/suspend_user/(:id)', (req, res) => {UsersHandling.suspend_user(req, res)}) //DONE, when suspended - user cannot login
-router.delete('/user/(:id)', (req, res) => {UsersHandling.token_checker(req,res, UsersHandling.delete_user)}) //DONE
-router.put('/restore_user/(:id)', (req, res) => {UsersHandling.restore_suspended_user(req, res)}) //DONE
+router.put('/suspend_user/(:id)', (req, res) => {LoginHandling.token_checker(req, res, UsersHandling.suspend_user)}) //DONE, when suspended - user cannot login
+router.delete('/user/(:id)', (req, res) => {LoginHandling.token_checker(req,res, UsersHandling.delete_user)}) //DONE
+router.put('/restore_user/(:id)', (req, res) => {LoginHandling.token_checker(req, res, UsersHandling.restore_suspended_user)}) //DONE
 router.post('/user', (req, res) => {UsersHandling.create_user(req, res)}) //DONE duplicate users
 
 
