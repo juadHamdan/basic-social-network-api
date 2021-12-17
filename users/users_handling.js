@@ -1,53 +1,54 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
-const g_users = require('../global_users')
+const global_scope = require('../global_users')
 const {update_json_file} = require('../json_file_handling')
 const User = require('./user')
+const UsersList = require('./users_list')
 const Status = require('./status')
+const g_users = global_scope.g_users
 
 function get_user_idx(id, res)
 {
-	if (id <= 0)
-	{
-		res.status(StatusCodes.BAD_REQUEST);
-		res.send("Bad id given")
-		return null;
-	}
+	// if (id <= 0)
+	// {
+	// 	res.status(StatusCodes.BAD_REQUEST);
+	// 	res.send("Bad id given")
+	// 	return null;
+	// }
 
-	const idx = g_users.findIndex(user => user.id == id)
-	if (idx < 0)
-	{
-		res.status(StatusCodes.NOT_FOUND);
-		res.send("No such user")
-		return null;
-	}
+	// const idx = g_users.findIndex(user => user.id == id)
+	// if (idx < 0)
+	// {
+	// 	res.status(StatusCodes.NOT_FOUND);
+	// 	res.send("No such user")
+	// 	return null;
+	// }
 
-	return idx
+	// return idx
 }
 
-function get_user(id, res)
+function check_id(id, res)
 {
-	if (id <= 0)
+	if (id === 1)
 	{
-		res.status(StatusCodes.BAD_REQUEST);
-		res.send("Bad id given")
+		res.status(StatusCodes.FORBIDDEN);
+		res.send("can't change or delete root user")
 		return null;
 	}
 
-	const user = g_users.find(user => user.id == id)
-	if (!user)
+	const idx = global_scope.users_list.get_index(id)
+	if (idx === - 1)
 	{
 		res.status(StatusCodes.NOT_FOUND);
-		res.send("No such user")
+		res.send("id doesn't exist")
 		return null;
 	}
 
-	return user
+	return 1;
 }
-
 
 function list_users(req, res) 
 {
-	res.send(JSON.stringify(g_users));   
+	res.send(JSON.stringify(global_scope.users_list.get_list()))
 }
 
 function delete_user(req, res)
@@ -60,15 +61,12 @@ function delete_user(req, res)
 		res.send("Can't delete root user")
 		return;		
 	}
-
-	const user_idx = get_user_idx(id, res)
-	if(!user_idx)
-		return
-
-	g_users.splice(user_idx, 1)
-	update_json_file(g_users)
-
-	res.send(JSON.stringify({}));   
+	
+	else if(check_id(id,res))
+	{
+		global_scope.users_list.delete_user(id)
+		res.send(JSON.stringify({}))
+	}
 }
 
 function create_user(req, res)
@@ -96,37 +94,29 @@ function create_user(req, res)
 		return;
 	}
 
-
-    const new_id = generate_unique_id()
-
-    const new_user = new User(name, new_id, email, password)
-    g_users.push(new_user)
-	update_json_file(g_users)
-
-	res.send(JSON.stringify(new_user) );   
-}
-
-function generate_unique_id()
-{
-    let max_id = 0;
-    g_users.forEach(item => { max_id = Math.max( max_id, item.id) })
-
-    return max_id + 1;
+	new_user = global_scope.users_list.add_user(name,email,password)
+	res.send(JSON.stringify(new_user));   
 }
 
 function update_user_status(req, res, new_status)
 {
 	const id = parseInt(req.params.id);
 
-	const user_idx = get_user_idx(id, res)
-	if(!user_idx)
-		return
+	// const user_idx = get_user_idx(id, res)
+	// if(!user_idx)
+	// 	return
 
-	const user = g_users[user_idx];
-	user.status = new_status;
-	update_json_file(g_users)
+	if(check_id(id,res))
+	{
+		user = global_scope.users_list.update_status(id, new_status)
+		res.send(JSON.stringify({user}))
+	}
 
-	res.send(JSON.stringify({user}));  
+	
+	// const user = g_users[user_idx];
+	// user.status = new_status;
+	// update_json_file(g_users)
+	
 }
 
 function approve_user(req, res)
@@ -150,4 +140,4 @@ function valid_mail(email)
     return re.test(email);
 }
 
-module.exports = {get_user_idx, get_user, list_users, create_user, get_user, delete_user, approve_user, suspend_user, restore_suspended_user}
+module.exports = {get_user_idx, list_users, create_user, delete_user, approve_user, suspend_user, restore_suspended_user}

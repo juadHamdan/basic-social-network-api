@@ -1,17 +1,15 @@
 const Status = require('./status')
-const bcrypt = require('bcrypt')
-
 
 class User {
-    constructor(name, id, email, password)
+    constructor(name, id, email, password, status)
     {
         this.id = id
         this.name = name
         this.email - email
-        this.password = hash(password);
+        this.password = password;
 
         this.creation_date = Date.now()
-        this.status = Status.created
+        this.status = status
     }
 
     changeName(new_name){
@@ -19,17 +17,5 @@ class User {
     }
 }
 
-function hash(password)
-{
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(password, salt);
-    return hash
-}
-
-//get id saved password hash and comparewith the given password
-function compare_pass(password, hash)
-{
-    return bcrypt.compareSync(password, hash);
-}
 
 module.exports = User
