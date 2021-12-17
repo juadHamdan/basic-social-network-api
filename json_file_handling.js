@@ -7,7 +7,7 @@ const json_file_name = 'users.json'
 //TODO: check if file exists! if so, don't update the file! (Consistant) OK!!
 function create_json_file(json_object,json_file_name)
 {
-	if(!fs.existsSync(path))
+	if(!fs.existsSync(json_file_name))
 		create_json(json_file_name,json_object)
 	
 	else 
