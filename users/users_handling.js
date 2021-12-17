@@ -1,5 +1,5 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
-const global_scope = require('../global_users')
+const global_scope = require('../global_consts')
 const {update_json_file} = require('../data/json_file_handling')
 const User = require('./user')
 const UsersList = require('./users_list')

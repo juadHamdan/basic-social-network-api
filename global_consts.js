@@ -1,0 +1,17 @@
+const {create_json_file} = require('./data/json_file_handling')
+const UsersList = require('./users/users_list')
+
+const json_users = 'data/users.json'
+//const json_messages = 'data/messages.json' todo
+//const json_posts = 'data/posts.json' todo
+
+dict = create_json_file(json_users)
+const users_list = new UsersList(dict)
+
+//dict = create_json_file_file(json_messages)
+//const messages_list = new MessagesList(dict)
+
+//dict = create_json_file_file(json_posts)
+//const posts_list = new postsList(dict)
+
+module.exports = {users_list,json_users }
