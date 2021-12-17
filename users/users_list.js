@@ -1,9 +1,9 @@
-const { update_json_file } = require("../json_file_handling")
+const { update_json_file } = require("../data/json_file_handling")
 const Status = require("./status")
 const bcrypt = require('bcrypt')
 const User = require("./user")
 
-const json_users = 'users.json'
+const json_users = 'data/users.json'
 
 class UsersList {
     constructor(json)
@@ -23,7 +23,7 @@ class UsersList {
     {
         const new_user = new User(name,this.users_array.length + 1,email,hash(password),Status.created)
         this.users_array.push(new_user)
-        update_json_file(this.users_array,global.json_users)
+        update_json_file(this.users_array,json_users)
         return new_user
     }
 

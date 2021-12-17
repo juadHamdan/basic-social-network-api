@@ -1,5 +1,5 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
-const {update_json_file} = require('../json_file_handling')
+const {update_json_file} = require('../data/json_file_handling')
 const Post = require('./post')
 const {get_user_idx, get_user} = require('../users/users_handling')
 
