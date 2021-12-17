@@ -23,6 +23,7 @@ restore user : PUT http://127.0.0.1:2718/restore_user/2
 
 const express = require('express')
 const package = require('./package.json');
+const cookieParser = require('cookie-parser');
 const UsersHandling = require('./users/users_handling');
 const PostsHandling = require('./posts/posts_handling');
 const MessagesHandling = require('./messages/messages_handling');
@@ -60,9 +61,9 @@ router.get('/version', (req, res) => {get_version(req, res)})
 //TODO users:
 router.post('/login', (req, res) => {LoginHandling.login(req, res)}) //when logged in => send posts, send messages
 router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE
-router.put('/approve_user/(:id)', (req, res) => {UsersHandling.approve_user(req, res)}) //DONE
+router.put('/approve_user/(:id)', (req, res) => {LoginHandling.token_checker(req, res, UsersHandling.approve_user)}) //DONE
 router.put('/suspend_user/(:id)', (req, res) => {UsersHandling.suspend_user(req, res)}) //DONE, when suspended - user cannot login
-router.delete('/user/(:id)', (req, res) => {UsersHandling.delete_user(req, res)}) //DONE
+router.delete('/user/(:id)', (req, res) => {UsersHandling.token_checker(req,res, UsersHandling.delete_user)}) //DONE
 router.put('/restore_user/(:id)', (req, res) => {UsersHandling.restore_suspended_user(req, res)}) //DONE
 router.post('/user', (req, res) => {UsersHandling.create_user(req, res)}) //DONE duplicate users
 
@@ -80,7 +81,8 @@ router.post('/message_users', (req, res) => {messages_handling.message_all_users
 router.post('/message_user/(:id)', (req, res) => {messages_handling.message_user(req, res)})
 
 app.use('/',router)
-
+app.use(cookieParser())
+app.use(LoginHandling.token_checker)
 
 // Init 
 let msg = `${package.description} listening at port ${port}`

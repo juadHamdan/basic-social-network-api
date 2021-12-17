@@ -1,6 +1,7 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
 const global_scope = require('../global_consts')
 const Status = require('./status')
+const jwt = require('jsonwebtoken');
 
 
 function check_id(id, res)
@@ -32,11 +33,18 @@ function delete_user(req, res)
 {
 	const id = parseInt(req.params.id);
 
+	if(req.user_data['id'] != '1')
+	{
+		res.status(StatusCodes.FORBIDDEN); // Forbidden
+		res.send("only root user can delete users status")
+		return
+	}
+
 	if (id == 1)
 	{
 		res.status(StatusCodes.FORBIDDEN); // Forbidden
 		res.send("Can't delete root user")
-		return;		
+		return	
 	}
 	
 	else if(check_id(id,res))
@@ -77,6 +85,13 @@ function create_user(req, res)
 
 function update_user_status(req, res, new_status)
 {
+	if(req.user_data['id'] != '1')
+	{
+		res.status(StatusCodes.FORBIDDEN); // Forbidden
+		res.send("only root user can change users status")
+		return
+	}
+
 	const id = parseInt(req.params.id);
 
 	if(check_id(id,res))
