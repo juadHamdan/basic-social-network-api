@@ -65,7 +65,7 @@ router.put('/approve_user/(:id)', (req, res) => {UsersHandling.approve_user(req,
 router.put('/suspend_user/(:id)', (req, res) => {UsersHandling.suspend_user(req, res)}) //DONE, when suspended - user cannot login
 router.delete('/user/(:id)', (req, res) => {UsersHandling.delete_user(req, res)}) //DONE
 router.put('/restore_user/(:id)', (req, res) => {UsersHandling.restore_suspended_user(req, res)}) //DONE
-router.post('/user', (req, res) => {UsersHandling.create_user(req, res)}) //DONE
+router.post('/user', (req, res) => {UsersHandling.create_user(req, res)}) //DONE duplicate users
 
 
 //TODO posts

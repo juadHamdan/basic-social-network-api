@@ -144,7 +144,7 @@ function restore_suspended_user(req, res)
 	update_user_status(req, res, Status.active)
 }
 
-function valid_mail()
+function valid_mail(email)
 {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);

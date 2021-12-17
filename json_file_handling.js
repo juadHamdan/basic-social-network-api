@@ -1,15 +1,19 @@
 const fs = require('fs');
 
+
 const json_file_name = 'users.json'
 
-//TODO: check if file exists! if so, don't update the file! (Consistant)
+//TODO: check if file exists! if so, don't update the file! (Consistant) OK!!
 function create_json_file(json_object)
 {
-	fs.writeFile(json_file_name, JSON.stringify(json_object), (err) => {
-		if (err) {
-			throw err;
-		}
-	});
+	if(!is_file_exist(json_file_name))
+	{
+		fs.writeFile(json_file_name, JSON.stringify(json_object), (err) => {
+			if (err) {
+				throw err;
+			}
+		});
+	}
 }
 
 function update_json_file(json_object)
@@ -21,5 +25,15 @@ function update_json_file(json_object)
 	});
 	console.log("json file updated.")
 }
+
+function is_file_exist(path) {
+
+    if (fs.existsSync(path)) 
+    {
+        return true
+    }
+    else return false
+}
+
 
 module.exports = {create_json_file, update_json_file};
