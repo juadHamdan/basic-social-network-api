@@ -9,9 +9,8 @@ function create_json_file(json_object,json_file_name)
 {
 	if(!fs.existsSync(json_file_name))
 		create_json(json_file_name,json_object)
-	
-	else 
-		import_json_data(json_file_name,json_object)
+
+		return import_json_data(json_file_name,json_object)
 }
 
 function update_json_file(json_object)
@@ -26,7 +25,8 @@ function update_json_file(json_object)
 
 function create_json(json_file_name,json_object)
 {
-	fs.writeFile(json_file_name, JSON.stringify(json_object), (err) => {
+	string = JSON.stringify(json_object)
+	fs.writeFile(json_file_name,string, (err) => {
 		if (err) {
 			throw err;
 		}
@@ -35,8 +35,12 @@ function create_json(json_file_name,json_object)
 
 function import_json_data(json_file_name,json_object)
 {
-
-	
+	rawdata = fs.readFileSync(json_file_name)
+	datalist = JSON.parse(rawdata)
+	return datalist
+	// datalist.forEach(data => {
+	// 	json_object.push(new User(data.name, this.users_array.length + 1 ,data.email, data.password))
+	// });
 }
 
 
