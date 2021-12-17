@@ -14,10 +14,10 @@ class UsersList {
             if(data.id != 1)
                 this.users_array.push(new User(data.name, this.users_array.length + 1 ,data.email, data.password,data.status))});
         }
-        else update_json_file(this.users_array,global.json_users)
+        else update_json_file(this.users_array,json_users)
     }
 
-    users_array = [ {id:1, name: 'Root'} ];
+    users_array = [ {id:1, name: 'Root', password: hash('123456')} ];
 
     add_user(name, email, password)
     {

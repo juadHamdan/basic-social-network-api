@@ -57,12 +57,4 @@ function token_checker(req, res, next)
 }
 
 
-function hello()
-{
-
-  console.log("hello");
-
-}
-
-
 module.exports = {login,token_checker }
