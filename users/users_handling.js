@@ -4,27 +4,7 @@ const {update_json_file} = require('../json_file_handling')
 const User = require('./user')
 const UsersList = require('./users_list')
 const Status = require('./status')
-const g_users = global_scope.g_users
 
-function get_user_idx(id, res)
-{
-	// if (id <= 0)
-	// {
-	// 	res.status(StatusCodes.BAD_REQUEST);
-	// 	res.send("Bad id given")
-	// 	return null;
-	// }
-
-	// const idx = g_users.findIndex(user => user.id == id)
-	// if (idx < 0)
-	// {
-	// 	res.status(StatusCodes.NOT_FOUND);
-	// 	res.send("No such user")
-	// 	return null;
-	// }
-
-	// return idx
-}
 
 function check_id(id, res)
 {
@@ -110,13 +90,7 @@ function update_user_status(req, res, new_status)
 	{
 		user = global_scope.users_list.update_status(id, new_status)
 		res.send(JSON.stringify({user}))
-	}
-
-	
-	// const user = g_users[user_idx];
-	// user.status = new_status;
-	// update_json_file(g_users)
-	
+	}	
 }
 
 function approve_user(req, res)
@@ -140,4 +114,4 @@ function valid_mail(email)
     return re.test(email);
 }
 
-module.exports = {get_user_idx, list_users, create_user, delete_user, approve_user, suspend_user, restore_suspended_user}
+module.exports = {list_users, create_user, delete_user, approve_user, suspend_user, restore_suspended_user}

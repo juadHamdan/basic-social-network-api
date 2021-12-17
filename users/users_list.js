@@ -3,6 +3,7 @@ const Status = require("./status")
 const bcrypt = require('bcrypt')
 const User = require("./user")
 
+const json_users = 'users.json'
 
 class UsersList {
     constructor(json)
@@ -13,7 +14,7 @@ class UsersList {
             if(data.id != 1)
                 this.users_array.push(new User(data.name, this.users_array.length + 1 ,data.email, data.password,data.status))});
         }
-        else update_json_file(this.users_array)
+        else update_json_file(this.users_array,global.json_users)
     }
 
     users_array = [ {id:1, name: 'Root'} ];
@@ -22,7 +23,7 @@ class UsersList {
     {
         const new_user = new User(name,this.users_array.length + 1,email,hash(password),Status.created)
         this.users_array.push(new_user)
-        update_json_file(this.users_array)
+        update_json_file(this.users_array,global.json_users)
         return new_user
     }
 
@@ -37,7 +38,7 @@ class UsersList {
         if (index === -1 ) return -1
 	
 	    this.users_array.splice(index, 1)
-        update_json_file(this.users_array)
+        update_json_file(this.users_array,json_users)
         return 0;
     }
 
@@ -53,7 +54,7 @@ class UsersList {
 
         const user = this.users_array[index]
 	    user.status = new_status;
-	    update_json_file(this.users_array)
+	    update_json_file(this.users_array,json_users)
         return user;
     }
 }
