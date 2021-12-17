@@ -1,5 +1,4 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
-const g_users = require('../global_users')
 const {update_json_file} = require('../json_file_handling')
 const Message = require('./message')
 const {get_user_idx, get_user} = require('../users/users_handling')
