@@ -3,10 +3,14 @@ const User = require("./user");
 class UsersList {
     constructor(json)
     {
-
+        //ERROR PASSWORD HASES TWICE!
+        json.forEach(data => {
+            if(data.id != 1)
+                this.users_array.push(new User(data.name, this.users_array.length + 1 ,data.email, data.password))
+        });
     }
 
-    users_array = [ {} ];
+    users_array = [ {id:1, name: 'Root'} ];
 
     add_user(new_name){
         this.name = new_name

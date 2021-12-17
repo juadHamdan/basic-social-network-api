@@ -8,7 +8,7 @@ class User {
         this.id = id
         this.name = name
         this.email - email
-        this.password = hash(password); //TODO: encrypt password! meaning of slow hash should be check?
+        this.password = hash(password);
 
         this.creation_date = Date.now()
         this.status = Status.created
