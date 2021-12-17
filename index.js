@@ -60,7 +60,7 @@ router.get('/version', (req, res) => {get_version(req, res)})
 
 //TODO users:
 router.get('/login', (req, res) => {UsersHandling.login(req, res)}) //when logged in => send posts, send messages
-router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE
+router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE => reset when exit
 router.put('/approve_user/(:id)', (req, res) => {UsersHandling.approve_user(req, res)}) //DONE
 router.put('/suspend_user/(:id)', (req, res) => {UsersHandling.suspend_user(req, res)}) //DONE, when suspended - user cannot login
 router.delete('/user/(:id)', (req, res) => {UsersHandling.delete_user(req, res)}) //DONE

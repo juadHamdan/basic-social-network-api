@@ -1,6 +1,5 @@
 const Status = require('./status')
-const crypto = require('crypto');
-const md5 = crypto.createHash('md5')
+const bcrypt = require('bcrypt')
 
 
 class User {
@@ -9,7 +8,7 @@ class User {
         this.id = id
         this.name = name
         this.email - email
-        this.password = Hash(password); //TODO: encrypt password! meaning of slow hash should be check?
+        this.password = hash(password); //TODO: encrypt password! meaning of slow hash should be check?
 
         this.creation_date = Date.now()
         this.status = Status.created
@@ -20,8 +19,17 @@ class User {
     }
 }
 
-function Hash(password){
-    return md5.update(password).digest('hex');
+function hash(password)
+{
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(password, salt);
+    return hash
+}
+
+//get id saved password hash and comparewith the given password
+function compare_pass(password, hash)
+{
+    return bcrypt.compareSync(password, hash);
 }
 
 module.exports = User
