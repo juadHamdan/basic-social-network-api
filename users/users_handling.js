@@ -83,7 +83,19 @@ function create_user(req, res)
 		res.send( "Missing name in request")
 		return;
 	}
-    //TODO: check rest of the body params
+    if(!valid_mail(email))
+	{
+		res.status( StatusCodes.BAD_REQUEST );
+		res.send( "request email is invalid")
+		return;
+	}
+	if(!password)
+	{
+		res.status( StatusCodes.BAD_REQUEST );
+		res.send( "Missing password in request")
+		return;
+	}
+
 
     const new_id = generate_unique_id()
 
@@ -130,6 +142,12 @@ function suspend_user(req, res)
 function restore_suspended_user(req, res)
 {
 	update_user_status(req, res, Status.active)
+}
+
+function valid_mail()
+{
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
 }
 
 module.exports = {get_user_idx, get_user, list_users, create_user, get_user, delete_user, approve_user, suspend_user, restore_suspended_user}
