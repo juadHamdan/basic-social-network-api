@@ -8,7 +8,7 @@ class User {
         this.email - email
         this.password = password;
 
-        this.creation_date = Date.now()
+        this.creation_date = new Date(Date.now()).toDateString();
         this.status = status
     }
 
