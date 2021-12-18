@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const User = require("./user")
 
 const json_users = 'data/users.json'
-//todo: counter issue when delete**
+
 class UsersList {
     constructor(json)
     {
@@ -12,7 +12,7 @@ class UsersList {
         {
             json.forEach(data => {
             if(data.id != 1)
-                this.users_array.push(new User(data.name, this.users_array.length + 1 ,data.email, data.password,data.status,data.creation_date))});
+                this.users_array.push(new User(data.name, data.id ,data.email, data.password,data.status,data.creation_date))});
         }
         else update_json_file(this.users_array,json_users)
     }
@@ -21,7 +21,7 @@ class UsersList {
 
     add_user(name, email, password)
     {
-        const new_user = new User(name,this.users_array.length + 1,email,hash(password),Status.created,new Date(Date.now()).toDateString())
+        const new_user = new User(name,create_unique_id(this.users_array),email,hash(password),Status.created,new Date(Date.now()).toDateString())
         this.users_array.push(new_user)
         update_json_file(this.users_array,json_users)
         return new_user
@@ -67,6 +67,15 @@ class UsersList {
 
         return res
     }
+
+    get_user_status(id)
+    {
+        const index = this.get_index(id)
+        if(index > 0)
+            return this.users_array[index].status
+
+        else return null
+    }
 }
 
 
@@ -81,6 +90,24 @@ function hash(password)
 function compare_pass(password, hash)
 {
     return bcrypt.compareSync(password, hash);
+}
+
+function create_unique_id(array)
+{
+    let prev_id = 0
+    let found = null
+    array.forEach(element => {
+        if(prev_id + 1 != element.id)
+        {
+          found = prev_id + 1 
+        }
+        prev_id = element.id
+    });
+
+    if (found == null)
+        found = array.length + 1
+
+    return found
 }
 
 module.exports = UsersList

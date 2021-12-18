@@ -1,6 +1,22 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
+const Status = require('../users/status')
 const global_scope = require('../global_consts')
 const jwt = require('jsonwebtoken')
+
+
+function check_active_user(id)
+{
+    const status = global_scope.users_list.get_user_status(id)
+    if(status === null)
+    {
+        return false
+    }
+    else
+    {
+        if(status == Status.active) return true
+        else return false
+    }
+}
 
 function list_posts(req, res) //view all posts
 {
@@ -9,6 +25,13 @@ function list_posts(req, res) //view all posts
 
 function publish_post(req, res)
 {
+    if( !check_active_user(req.user_data['id']) )
+    {
+        res.status( StatusCodes.BAD_REQUEST )
+		res.send( "you are not active user yet, please wait for root activation")
+		return;
+    }
+
     const post = req.body.post;
 
     if(req.user_data)
@@ -23,7 +46,7 @@ function delete_post(req, res)
 {
     const id = parseInt(req.params.id);
     creator_id = global_scope.posts_list.get_creator(id)
-
+    
     if(creator_id == null)
     {
         res.status( StatusCodes.BAD_REQUEST );
