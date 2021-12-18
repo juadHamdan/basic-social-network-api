@@ -9,7 +9,7 @@ function check_id(id, res)
 	if (id === 1)
 	{
 		res.status(StatusCodes.FORBIDDEN);
-		res.send("can't change or delete root user")
+		res.send("can't modify or delete root user")
 		return null;
 	}
 

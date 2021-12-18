@@ -51,7 +51,7 @@ function delete_post(req, res)
     
     if(creator_id == null)
     {
-        res.status( StatusCodes.BAD_REQUEST );
+        res.status( StatusCodes.FORBIDDEN );
 		res.send( "this post id doesn't exist")
 		return;
     }
