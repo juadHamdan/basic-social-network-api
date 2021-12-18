@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken')
 
 function check_active_user(id)
 {
+    if(id === '1') return true
+
     const status = global_scope.users_list.get_user_status(id)
     if(status === null)
     {
@@ -57,6 +59,8 @@ function delete_post(req, res)
     if(creator_id == req.user_data['id'] || req.user_data['id'] == '1' )
     {
         global_scope.posts_list.delete_post(id)
+        res.send( "the post deleted successfully")
+        return
     }
 
     else 

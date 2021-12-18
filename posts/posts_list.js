@@ -17,7 +17,7 @@ class PostsList {
 
     add_post(text,creator)
     {
-        const new_post = new Post(this.posts_array.length + 1,text, new Date(Date.now()).toDateString(),creator)
+        const new_post = new Post(create_unique_id(this.posts_array),text, new Date(Date.now()).toDateString(),creator)
         this.posts_array.push(new_post)
         update_json_file(this.posts_array,json_posts)
         return new_post
@@ -52,5 +52,22 @@ class PostsList {
     }
 }
 
+function create_unique_id(array)
+{
+    let prev_id = 0
+    let found = null
+    array.forEach(element => {
+        if(prev_id + 1 != element.id)
+        {
+          found = prev_id + 1 
+        }
+        prev_id = element.id
+    });
+
+    if (found == null)
+        found = array.length + 1
+
+    return found
+}
 
 module.exports = PostsList
