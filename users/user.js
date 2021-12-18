@@ -1,14 +1,13 @@
 const Status = require('./status')
 
 class User {
-    constructor(name, id, email, password, status)
+    constructor(name, id, email, password, status, creation)
     {
         this.id = id
         this.name = name
         this.email - email
-        this.password = password;
-
-        this.creation_date = new Date(Date.now()).toDateString();
+        this.password = password
+        this.creation_date = creation
         this.status = status
     }
 

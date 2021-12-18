@@ -71,8 +71,8 @@ router.post('/user', (req, res) => {UsersHandling.create_user(req, res)}) //DONE
 
 //TODO posts
 router.get('/posts', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.list_posts)})
-router.post('/post/(:id)', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.publish_post_by_user)})
-router.delete('/post/(:id)', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.delete_post_of_user)})
+router.post('/post', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.publish_post)})
+router.delete('/post/(:id)', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.delete_post)})
 
 
 //TODO messages:

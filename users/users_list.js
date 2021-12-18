@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const User = require("./user")
 
 const json_users = 'data/users.json'
-
+//todo: counter issue when delete**
 class UsersList {
     constructor(json)
     {
@@ -12,7 +12,7 @@ class UsersList {
         {
             json.forEach(data => {
             if(data.id != 1)
-                this.users_array.push(new User(data.name, this.users_array.length + 1 ,data.email, data.password,data.status))});
+                this.users_array.push(new User(data.name, this.users_array.length + 1 ,data.email, data.password,data.status,data.creation_date))});
         }
         else update_json_file(this.users_array,json_users)
     }
@@ -21,7 +21,7 @@ class UsersList {
 
     add_user(name, email, password)
     {
-        const new_user = new User(name,this.users_array.length + 1,email,hash(password),Status.created)
+        const new_user = new User(name,this.users_array.length + 1,email,hash(password),Status.created,new Date(Date.now()).toDateString())
         this.users_array.push(new_user)
         update_json_file(this.users_array,json_users)
         return new_user

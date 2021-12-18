@@ -1,10 +1,10 @@
 class Post {
-    constructor(id, text)
+    constructor(id, text, creation_date,creator)
     {
         this.id = id
         this.text = text
-
-        this.creation_date = Date.now()
+        this.creation_date = creation_date
+        this.creator = creator
     }
 }
 

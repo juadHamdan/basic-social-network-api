@@ -1,7 +1,7 @@
 const StatusCodes = require('http-status-codes').StatusCodes;
 const global_scope = require('../global_consts')
 const Status = require('./status')
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 
 
 function check_id(id, res)
@@ -36,7 +36,7 @@ function delete_user(req, res)
 	if(req.user_data['id'] != '1')
 	{
 		res.status(StatusCodes.FORBIDDEN); // Forbidden
-		res.send("only root user can delete users status")
+		res.send("only root user can delete users")
 		return
 	}
 
