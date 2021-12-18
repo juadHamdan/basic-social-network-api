@@ -57,10 +57,11 @@ function get_version(req, res)
 const router = express.Router();
 
 router.get('/version', (req, res) => {get_version(req, res)})
+router.post('/login', (req, res) => {LoginHandling.login(req,res)}) //when logged in => send posts, send messages
+router.post('/loginout', (req, res) => {LoginHandling.token_checker(req, res, LoginHandling.logout)}) //when logged in => send posts, send messages
 
 //TODO users:
-router.post('/login', (req, res) => {LoginHandling.login(req, res)}) //when logged in => send posts, send messages
-router.get('/users', (req, res) => {UsersHandling.list_users(req, res)}) //DONE
+router.get('/users', (req, res) => {LoginHandling.token_checker(req,res, UsersHandling.list_users)}) //DONE
 router.put('/approve_user/(:id)', (req, res) => {LoginHandling.token_checker(req, res, UsersHandling.approve_user)}) //DONE
 router.put('/suspend_user/(:id)', (req, res) => {LoginHandling.token_checker(req, res, UsersHandling.suspend_user)}) //DONE, when suspended - user cannot login
 router.delete('/user/(:id)', (req, res) => {LoginHandling.token_checker(req,res, UsersHandling.delete_user)}) //DONE
@@ -69,16 +70,16 @@ router.post('/user', (req, res) => {UsersHandling.create_user(req, res)}) //DONE
 
 
 //TODO posts
-router.get('/posts', (req, res) => {PostsHandling.list_posts(req, res)})
-router.post('/post/(:id)', (req, res) => {PostsHandling.publish_post_by_user(req, res)})
-router.delete('/post/(:id)', (req, res) => {PostsHandling.delete_post_of_user(req, res)})
+router.get('/posts', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.list_posts)})
+router.post('/post/(:id)', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.publish_post_by_user)})
+router.delete('/post/(:id)', (req, res) => {LoginHandling.token_checker(req,res,PostsHandling.delete_post_of_user)})
 
 
 //TODO messages:
-router.get('/messages/(:id)', (req, res) => {MessagesHandling.list_messages(req, res)})
-router.post('/message/:sender_id/:receiver_id', (req, res) => {MessagesHandling.send_message(req, res)}) // from user to user
-router.post('/message_users', (req, res) => {messages_handling.message_all_users(req, res)})
-router.post('/message_user/(:id)', (req, res) => {messages_handling.message_user(req, res)})
+router.get('/messages/(:id)', (req, res) => {LoginHandling.token_checker(req,res,MessagesHandling.list_messages)})
+router.post('/message/:sender_id/:receiver_id', (req, res) => {LoginHandling.token_checker(req,res,MessagesHandling.send_message)}) // from user to user
+router.post('/message_users', (req, res) => {LoginHandling.token_checker(req,res,messages_handling.message_all_users)})
+router.post('/message_user/(:id)', (req, res) => {LoginHandling.token_checker(req,res,messages_handling.message_user)})
 
 app.use('/',router)
 app.use(cookieParser())
