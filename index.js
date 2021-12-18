@@ -58,7 +58,7 @@ const router = express.Router();
 
 router.get('/version', (req, res) => {get_version(req, res)})
 router.post('/login', (req, res) => {LoginHandling.login(req,res)}) //when logged in => send posts, send messages
-router.post('/loginout', (req, res) => {LoginHandling.token_checker(req, res, LoginHandling.logout)}) //when logged in => send posts, send messages
+router.post('/logout', (req, res) => {LoginHandling.token_checker(req, res, LoginHandling.logout)}) //when logged in => send posts, send messages
 
 //TODO users:
 router.get('/users', (req, res) => {LoginHandling.token_checker(req,res, UsersHandling.list_users)}) //DONE
